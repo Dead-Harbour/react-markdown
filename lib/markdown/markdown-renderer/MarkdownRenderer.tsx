@@ -1,52 +1,44 @@
 import './styles/markdown-renderer.scss';
-import { getClassName } from '@syren-dev-tech/confects/helpers';
 import { HTML_DivProps } from '@syren-dev-tech/confects/types';
 import { Loading } from '@syren-dev-tech/confects/decorations';
 import { MarkdownBody } from './fragments/MarkdownBody';
 import { MarkdownFeatureFlags, MarkdownHeader } from './fragments/MarkdownHeader';
 import { MarkdownFooter } from './fragments/MarkdownFooter';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { getClassName } from '@syren-dev-tech/concauses/props';
+import { useMarkdownContent } from './MarkdownContentProvider';
 
-export type MarkdownRendererProps = {
-    defaultContent?: string
+export interface MarkdownRendererProps extends HTML_DivProps {
     features?: MarkdownFeatureFlags
     href?: string
-} & HTML_DivProps;
+}
 
 export function MarkdownRenderer(
     {
         className,
-        defaultContent,
         features = {},
         href,
         ...props
-    }: MarkdownRendererProps
+    }: Readonly<MarkdownRendererProps>
 ) {
 
-    const [content, setContent] = useState(defaultContent);
-    const [raw, showRaw] = useState(false);
-    const [ready, isReady] = useState(true);
+    const { content, setContent } = useMarkdownContent();
 
-    const loadFromHref = async () => {
+    useEffect(() => {
         if (!href)
             return;
 
-        try {
-            const response = await fetch(href);
-            const text = await response.text();
-            setContent(text);
-        }
-        catch (err) {
-            console.error(err);
-        }
-    };
-
-    useEffect(() => {
-        if (ready)
-            loadFromHref();
-        else
-            isReady(true);
-    }, [ready, href]);
+        (async () => {
+            try {
+                const response = await fetch(href);
+                const text = await response.text();
+                setContent(text);
+            }
+            catch (err) {
+                console.error(err);
+            }
+        })();
+    }, [href]);
 
     if (!content) {
         return <Loading>
@@ -55,22 +47,14 @@ export function MarkdownRenderer(
     }
 
     return <div
-        className={getClassName('markdown-renderer f-body', className)}
+        className={getClassName('markdown-renderer', className)}
         {...props}
     >
         <MarkdownHeader
-            content={content}
             features={features}
-            raw={raw}
-            showRaw={showRaw}
-            reload={loadFromHref}
         />
 
-        <MarkdownBody
-            className='f-content'
-            markdownContent={content}
-            raw={raw}
-        />
+        <MarkdownBody />
 
         <MarkdownFooter
             features={features}

@@ -1,15 +1,16 @@
 import { ClassAttributes, HTMLAttributes, JSX, ReactNode } from 'react';
 import { CodeEditor, CodeEditorProps } from '@syren-dev-tech/confects-editors';
 import { Components, ExtraProps } from 'react-markdown';
-import { getClassName, uniqueId } from '@syren-dev-tech/confects/helpers';
 import { HTML_CodeProps, isInterfaceTypeIterable } from '@syren-dev-tech/confects/types';
 import { processingOrder } from './patterns';
-import { v4 } from 'uuid';
+import { getClassName } from '@syren-dev-tech/concauses/props';
+import { uniqueKey } from '@syren-dev-tech/concauses/strings';
 
 type ElementProps<T extends HTMLElement> = ClassAttributes<T> & HTMLAttributes<T> & ExtraProps;
 
 function repl(str: string, pattern: RegExp, element: (m: RegExpMatchArray) => ReactNode) {
-    const m = str.match(pattern);
+    const m = pattern.exec(str);
+
     if (!m)
         return [str];
 
@@ -63,7 +64,7 @@ function application<T extends HTMLElement>({ children, node }: ElementProps<T>)
                 isInterfaceTypeIterable(v)
             ) {
                 return <p
-                    key={uniqueId()}
+                    key={uniqueKey()}
                 >
                     {v}
                 </p>;
@@ -106,9 +107,9 @@ function application<T extends HTMLElement>({ children, node }: ElementProps<T>)
 
                 loop();
 
-                return ret.map((r, i) => (typeof r === 'object'
+                return ret.map((r) => (typeof r === 'object'
                     ? r
-                    : <span key={i}>{r}</span>));
+                    : <span key={uniqueKey()}>{r}</span>));
             }
 
             return v;
@@ -117,11 +118,9 @@ function application<T extends HTMLElement>({ children, node }: ElementProps<T>)
         return <p>{pRepl}</p>;
     }
 
-    if (typeof children !== 'string') {
-        // Console.debug(children);
-
+    if (typeof children !== 'string') 
         return <>{children}</>;
-    }
+    
 
     const processed = process([children]);
 
@@ -137,8 +136,6 @@ function application<T extends HTMLElement>({ children, node }: ElementProps<T>)
         return <>{content}</>;
     }
 
-    // Console.debug('PROCESSED:', processed);
-
     return <p>{processed}</p>;
 }
 
@@ -151,7 +148,7 @@ export const renderers: Components = {
         if (!spl)
             return <code className={getClassName('f-body', className)} />;
 
-        const m = spl[0]?.match(/^\/\/ md-flags: (?<flags>.+)/);
+        const m = /^\/\/ md-flags: (?<flags>.+)/.exec(spl[0]);
         if (m) {
             const content = spl.slice(1).join('\n')
                 .trim();
@@ -162,20 +159,16 @@ export const renderers: Components = {
 
             if (flags.includes('editor')) {
                 const codeEditorProps: CodeEditorProps = {
-                    id: `editor:${v4()}`
+                    id: uniqueKey('editor:')
                 };
 
                 flags.forEach((flag) => {
-                    if (flag.match(/file=\w+/)) {
+                    if (/file=\w+/.exec(flag)) {
                         const [, fileName] = flag.split('=');
 
                         codeEditorProps.heading = fileName;
                         codeEditorProps.id = `editor:${fileName}`;
                     }
-                    /*
-                     * Else if (flag === 'download')
-                     *     props.canDownload = true;
-                     */
                 });
 
                 return <CodeEditor defaultValue={content} className='f-primary' {...codeEditorProps} />;
@@ -187,22 +180,22 @@ export const renderers: Components = {
         return <code className={getClassName('f-body', className)} {...props}>{children}</code>;
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    h1: ({ children, node, ...props }) => <h1 {...props} id={(children || '').toString().toLowerCase()
-        .replace(/\s/g, '-')} className='heading'>{children}</h1>,
+    h1: ({ children, node, ...props }) => <h1 {...props} id={(children ?? '').toString().toLowerCase()
+        .replaceAll(/\s/g, '-')} className='heading'>{children}</h1>,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    h2: ({ children, node, ...props }) => <h2 {...props} id={(children || '').toString().toLowerCase()
-        .replace(/\s/g, '-')} className='heading'>{children}</h2>,
+    h2: ({ children, node, ...props }) => <h2 {...props} id={(children ?? '').toString().toLowerCase()
+        .replaceAll(/\s/g, '-')} className='heading'>{children}</h2>,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    h3: ({ children, node, ...props }) => <h3 {...props} id={(children || '').toString().toLowerCase()
-        .replace(/\s/g, '-')} className='heading'>{children}</h3>,
+    h3: ({ children, node, ...props }) => <h3 {...props} id={(children ?? '').toString().toLowerCase()
+        .replaceAll(/\s/g, '-')} className='heading'>{children}</h3>,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    h4: ({ children, node, ...props }) => <h4 {...props} id={(children || '').toString().toLowerCase()
-        .replace(/\s/g, '-')} className='heading'>{children}</h4>,
+    h4: ({ children, node, ...props }) => <h4 {...props} id={(children ?? '').toString().toLowerCase()
+        .replaceAll(/\s/g, '-')} className='heading'>{children}</h4>,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    h5: ({ children, node, ...props }) => <h5 {...props} id={(children || '').toString().toLowerCase()
-        .replace(/\s/g, '-')} className='heading'>{children}</h5>,
+    h5: ({ children, node, ...props }) => <h5 {...props} id={(children ?? '').toString().toLowerCase()
+        .replaceAll(/\s/g, '-')} className='heading'>{children}</h5>,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    h6: ({ children, node, ...props }) => <h6 {...props} id={(children || '').toString().toLowerCase()
-        .replace(/\s/g, '-')} className='heading'>{children}</h6>,
+    h6: ({ children, node, ...props }) => <h6 {...props} id={(children ?? '').toString().toLowerCase()
+        .replaceAll(/\s/g, '-')} className='heading'>{children}</h6>,
     p: (props) => application<HTMLParagraphElement>(props)
 };

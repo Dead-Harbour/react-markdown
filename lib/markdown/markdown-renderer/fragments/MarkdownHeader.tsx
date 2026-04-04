@@ -1,35 +1,31 @@
 import { Button } from '@syren-dev-tech/confects/buttons';
-import { Dispatch } from 'react';
 import { FileControls } from './header/FileControls';
-import { getClassName } from '@syren-dev-tech/confects/helpers';
 import { HTML_DivProps } from '@syren-dev-tech/confects/types';
+import { useMarkdownContent } from '../MarkdownContentProvider';
+import { getClassName } from '@syren-dev-tech/concauses/props';
 
 export interface MarkdownFeatureFlags {
     bodyOnly?: boolean
     download?: boolean
     print?: boolean
-    reload?: boolean
+    reload?: () => void
     renderToggle?: boolean
 }
 
-export type MarkdownHeaderProps = {
-    content?: string
+export interface MarkdownHeaderProps extends HTML_DivProps {
     features: MarkdownFeatureFlags
-    raw: boolean
     reload?: () => Promise<void>
-    showRaw: Dispatch<boolean>
-} & HTML_DivProps
+}
 
 export function MarkdownHeader(
     {
-        content,
         features,
-        raw,
-        reload,
-        showRaw,
         ...props
-    }: MarkdownHeaderProps
+    }: Readonly<MarkdownHeaderProps>
 ) {
+
+    const { setShowRaw } = useMarkdownContent();
+
     if (features.bodyOnly)
         return null;
 
@@ -38,11 +34,10 @@ export function MarkdownHeader(
         {...props}
     >
         {
-            reload &&
             features.reload &&
             <Button
                 className='f-trinary'
-                onClick={reload}
+                onClick={features.reload}
             >
                 Reload
             </Button>
@@ -54,15 +49,15 @@ export function MarkdownHeader(
                 className='render-controls'
             >
                 <Button
-                    onClick={() => showRaw(false)}
-                    className={getClassName('show-pretty f-trinary', raw && 'l2-f' || 'd2-f')}
+                    onClick={() => setShowRaw(false)}
+                    className={getClassName('show-pretty')}
                 >
                     Pretty
                 </Button>
 
                 <Button
-                    onClick={() => showRaw(true)}
-                    className={getClassName('show-raw f-trinary', !raw && 'l2-f' || 'd2-f')}
+                    onClick={() => setShowRaw(true)}
+                    className={getClassName('show-raw')}
                 >
                     Raw
                 </Button>
@@ -70,7 +65,6 @@ export function MarkdownHeader(
         }
 
         <FileControls
-            content={content}
             features={features}
         />
     </div>;

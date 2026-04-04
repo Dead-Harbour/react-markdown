@@ -1,23 +1,22 @@
 import './styles/toc.scss';
 import { HeadingNode } from './HeadingNode';
 import { TOCItem } from './TOCItem';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 
 const MAX_CLIMB_ATTEMPTS = 20;
 
 function getHeadingLevel(tag: string) {
-    const nChar = tag.charCodeAt(1);
+    const nChar = tag.codePointAt(1);
     const n = Number(nChar);
-    if (isNaN(n))
+    if (Number.isNaN(n))
         return 1;
     return n;
 }
 
 export function TableOfContents() {
 
-    const ref = useRef(null as HTMLSpanElement | null);
-    const [root] = useState(new HeadingNode('', 0));
-    const [ready, isReady] = useState(false);
+    const ref = useRef<HTMLSpanElement>(null);
+    const [root] = useMemo(() => [new HeadingNode('', 0)], []);
 
     useEffect(() => {
         if (!ref.current)
@@ -30,12 +29,11 @@ export function TableOfContents() {
             attempts++;
         }
 
-        if (!mdParent || !mdParent.classList.contains('markdown-renderer'))
+        if (!mdParent?.classList.contains('markdown-renderer'))
             return;
 
         root.clear();
 
-        const mapping = new Map<string, HeadingNode>();
         const all = mdParent.querySelectorAll('*');
 
         let pointer: HeadingNode;
@@ -46,7 +44,6 @@ export function TableOfContents() {
                     return;
 
                 const heading = new HeadingNode(element.id, tier);
-                mapping.set(heading.id, heading);
 
                 if (!pointer) {
                     pointer = root.addNext(heading);
@@ -70,17 +67,12 @@ export function TableOfContents() {
                 }
             }
         });
-
-        isReady(true);
     }, [ref]);
 
     return <span
         ref={ref}
         className='toc'
     >
-        {
-            ready &&
-            <TOCItem heading={root} />
-        }
+        <TOCItem heading={root} />
     </span>;
 }

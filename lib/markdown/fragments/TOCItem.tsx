@@ -1,9 +1,14 @@
+import type { HTMLElementProps } from '@syren-dev-tech/confects/types';
 import { HeadingNode } from './HeadingNode';
+
+interface TOCItemProps extends HTMLElementProps {
+    heading: HeadingNode
+}
 
 export function TOCItem(
     {
         heading
-    }: { heading: HeadingNode }
+    }: Readonly<TOCItemProps>
 ) {
     if (!heading.id) {
         return <ul
@@ -26,7 +31,7 @@ export function TOCItem(
         <a
             href={`#${heading.id}`}
         >
-            {heading.id.replace(/-/g, ' ')}
+            {heading.id.replaceAll('-', ' ')}
         </a>
 
         {

@@ -1,15 +1,16 @@
 import { HTML_DivProps } from '@syren-dev-tech/confects/types';
-import { MarkdownFeatureFlags } from 'lib/markdown';
+import type { MarkdownFeatureFlags } from './MarkdownHeader';
 
-export type MarkdownFooterProps = {
+export interface MarkdownFooterProps extends HTML_DivProps {
     features?: MarkdownFeatureFlags
-} & HTML_DivProps;
+}
 
 export function MarkdownFooter(
     {
+        children,
         features,
         ...props
-    }: MarkdownFooterProps
+    }: Readonly<MarkdownFooterProps>
 ) {
     if (features?.bodyOnly)
         return null;
@@ -18,6 +19,6 @@ export function MarkdownFooter(
         className='md-footer f-secondary'
         {...props}
     >
-
+        {children}
     </div>;
 }

@@ -1,14 +1,14 @@
 import { Button } from '@syren-dev-tech/confects/buttons';
-import { ContentLayoutSchema } from './content/types';
-import { getClassName } from '@syren-dev-tech/confects/helpers';
-import { HTML_DivProps } from '@syren-dev-tech/confects/types';
+import { ContentLayoutSchema } from './types';
+import { getClassName } from '@syren-dev-tech/concauses/props';
 import { SchemaRenderer } from './fragments/SchemaRenderer';
 import { useEffect, useRef, useState } from 'react';
+import type { HTML_DivProps } from '@syren-dev-tech/confects/types';
 
-export type ContentRendererProps = {
+export interface ContentRendererProps extends HTML_DivProps {
     defaultContent?: ContentLayoutSchema
     href: string
-} & HTML_DivProps;
+}
 
 export function ContentRenderer(
     {
@@ -16,25 +16,20 @@ export function ContentRenderer(
         defaultContent,
         href,
         ...props
-    }: ContentRendererProps
+    }: Readonly<ContentRendererProps>
 ) {
     const [content, setContent] = useState(defaultContent);
-    const [ready, isReady] = useState(true);
 
     const ref = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        if (ready) {
-            console.log('FETCH:', href);
+        console.log('FETCH:', href);
 
-            fetch(href)
-                .then((resp) => resp.json() as Promise<ContentLayoutSchema>)
-                .then((data) => setContent(data))
-                .catch(console.error);
-        }
-        else
-            isReady(true);
-    }, [ready, href]);
+        fetch(href)
+            .then((resp) => resp.json() as Promise<ContentLayoutSchema>)
+            .then((data) => setContent(data))
+            .catch(console.error);
+    }, [href]);
 
     if (!content) {
         return <div>
@@ -59,21 +54,20 @@ export function ContentRenderer(
                         return;
 
                     const elementHtml = ref.current.outerHTML;
+                    const printDocument = printWindow.document;
 
-                    printWindow.document.write('<html><head><title>Print</title>');
-                    printWindow.document.write('<style>body { font-family: Arial, sans-serif; }</style>'); // Add any styles you want here
-                    printWindow.document.write('</head><body>');
-                    printWindow.document.write(elementHtml);
-                    printWindow.document.write('</body></html>');
+                    printDocument.title = 'Print';
 
-                    // Close the document to finish writing
-                    printWindow.document.close();
+                    const styleElement = printDocument.createElement('style');
+                    styleElement.textContent = 'body { font-family: Arial, sans-serif; }';
 
-                    // Wait for the content to load and then trigger the print dialog
-                    printWindow.onload = () => {
+                    printDocument.head.innerHTML = '';
+                    printDocument.head.appendChild(styleElement);
+                    printDocument.body.innerHTML = elementHtml;
+
+                    setTimeout(() => {
                         printWindow.print();
-                        // PrintWindow.close();
-                    };
+                    }, 0);
                 }
             }
         >

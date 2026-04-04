@@ -1,36 +1,36 @@
-import { getClassName } from '@syren-dev-tech/confects/helpers';
+import { getClassName } from '@syren-dev-tech/concauses/props';
 import { HTML_DivProps } from '@syren-dev-tech/confects/types';
 import { renderers } from '../helpers/renderers';
+import { uniqueKey } from '@syren-dev-tech/concauses/strings';
+import { useMarkdownContent } from '../MarkdownContentProvider';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
-type MarkdownBodyProps = HTML_DivProps & {
-    raw: boolean
-    markdownContent: string
-}
+type MarkdownBodyProps = HTML_DivProps
 
 export function MarkdownBody(
     {
-        raw,
-        markdownContent,
         className
-    }: MarkdownBodyProps
+    }: Readonly<MarkdownBodyProps>
 ) {
+
+    const { showRaw, content } = useMarkdownContent();
+
     return <div
         className='md-body'
     >
         <div
-            className={getClassName('md-content', raw && 'raw', className)}
+            className={getClassName('md-content', showRaw && 'raw', className)}
         >
             {
-                raw
+                showRaw
                     ? <div>
-                        {markdownContent.split(/\n/g).map((line, i) => {
+                        {content.split(/\n/g).map((line) => {
                             if (!line)
-                                return <br key={i} />;
+                                return <br key={uniqueKey()} />;
 
                             return <p
-                                key={i}
+                                key={uniqueKey()}
                             >
                                 {line}
                             </p>;
@@ -40,7 +40,7 @@ export function MarkdownBody(
                         remarkPlugins={[remarkGfm]}
                         components={renderers}
                     >
-                        {markdownContent}
+                        {content}
                     </Markdown>
             }
         </div>

@@ -3,10 +3,10 @@ export class HeadingNode {
 
     tier: number;
 
-    // eslint-disable-next-line no-use-before-define
+     
     prev?: HeadingNode;
 
-    // eslint-disable-next-line no-use-before-define
+     
     next: HeadingNode[] = [];
 
     clear() {

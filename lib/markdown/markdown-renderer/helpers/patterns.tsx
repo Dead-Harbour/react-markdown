@@ -1,6 +1,6 @@
 import { HTMLElementProps } from '@syren-dev-tech/confects/types';
-import { TableOfContents } from 'lib/markdown';
 import { ReactNode } from 'react';
+import { TableOfContents } from '../../fragments/TableOfContents';
 
 interface Processor {
     element: (m: RegExpMatchArray) => ReactNode,

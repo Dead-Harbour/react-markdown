@@ -1,15 +1,17 @@
 import { Content } from '@syren-dev-tech/confects/containers';
-import { ContentSchema, isContentImageSchema, isContentMarkdownSchema } from '../content/types';
-import { MarkdownRenderer } from 'lib/markdown';
+import { ContentSchema, isContentImageSchema, isContentMarkdownSchema } from '../types';
+import type { HTMLElementProps } from '@syren-dev-tech/confects/types';
+import { MarkdownRenderer } from '../../markdown-renderer/MarkdownRenderer';
 
-export
-    function RenderContent(
-        {
-            schema
-        }: { schema: ContentSchema }
-    ) {
+interface RenderContentProps extends HTMLElementProps {
+    schema: ContentSchema
+}
 
-    console.log('render content:', schema);
+export function RenderContent(
+    {
+        schema
+    }: Readonly<RenderContentProps>
+) {
 
     const { content } = schema;
 
@@ -36,6 +38,7 @@ export
         return <Content>
             <figure>
                 <img
+                    alt='content-img'
                     src={content.image.src}
                 />
 

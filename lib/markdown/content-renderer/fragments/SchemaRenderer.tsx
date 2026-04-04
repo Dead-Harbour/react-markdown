@@ -1,14 +1,18 @@
 import { ContentBlock } from '@syren-dev-tech/confects/containers';
-import { ContentLayoutSchema } from '../content/types';
-import { uniqueId } from '@syren-dev-tech/confects/helpers';
-import BlockContent from './BlockContent';
+import { ContentLayoutSchema } from '../types';
+import type { HTMLElementProps } from '@syren-dev-tech/confects/types';
+import { uniqueKey } from '@syren-dev-tech/concauses/strings';
+import { BlockContent } from './BlockContent';
 
-export
-    function SchemaRenderer(
-        {
-            schema
-        }: { schema: ContentLayoutSchema }
-    ) {
+interface SchemaRendererProps extends HTMLElementProps {
+    schema: ContentLayoutSchema
+}
+
+export function SchemaRenderer(
+    {
+        schema
+    }: Readonly<SchemaRendererProps>
+) {
     return <>
         {
             schema.title &&
@@ -22,13 +26,13 @@ export
                 console.log('block content', bS, blockSchema);
 
                 return <ContentBlock
-                    key={uniqueId('bc:')}
+                    key={uniqueKey()}
                 >
                     {
                         blockSchema.content.map((blockContent) => {
                             return <BlockContent
-                                key={uniqueId('block:')}
-                                content={blockContent}
+                                key={uniqueKey()}
+                                blockContent={blockContent}
                             />;
                         })
                     }

@@ -1,19 +1,19 @@
-interface ContentMarkdownSchema {
+export interface ContentMarkdownSchema {
     href: string
 }
 
-interface ContentImageSchema {
+export interface ContentImageSchema {
     image: {
         src: string
     }
     caption?: string
 }
 
-interface ContentTextSchema {
+export interface ContentTextSchema {
     text: string
 }
 
-interface ContentTileGroupOptions {
+export interface ContentTileGroupOptions {
     perRow?: number
 }
 
@@ -21,26 +21,26 @@ export interface ContentSchema {
     content: ContentMarkdownSchema | ContentImageSchema | ContentTextSchema
 }
 
-interface ContentGroupSchema {
+export interface ContentGroupSchema {
     group: ContentSchema[]
 }
 
-interface ContentListItemSchema {
+export interface ContentListItemSchema {
     content: ContentSchema[]
 }
 
-interface ContentListSchema {
+export interface ContentListSchema {
     list: ContentListItemSchema[]
 }
 
-interface ContentTileSchema {
+export interface ContentTileSchema {
     figure?: {
         image: ContentImageSchema
         caption?: ContentSchema
     }
 }
 
-interface ContentTileGroupSchema {
+export interface ContentTileGroupSchema {
     tiles: {
         options: ContentTileGroupOptions
         content: ContentTileSchema[]
@@ -49,7 +49,7 @@ interface ContentTileGroupSchema {
 
 export type BlockContentType = ContentSchema | ContentListSchema | ContentGroupSchema | ContentTileGroupSchema | null
 
-interface ContentBlockSchema {
+export interface ContentBlockSchema {
     content: BlockContentType[]
 }
 
@@ -58,11 +58,9 @@ export interface ContentLayoutSchema {
     layout: ContentBlockSchema[]
 }
 
-/*
- * Export function isContentSchema(obj: unknown): obj is ContentSchema {
- *     return 'content' in (obj as ContentSchema);
- * }
- */
+export function isContentSchema(obj: unknown): obj is ContentSchema {
+    return 'content' in (obj as ContentSchema);
+}
 
 export function isContentMarkdownSchema(obj: unknown): obj is ContentMarkdownSchema {
     return 'href' in (obj as ContentMarkdownSchema);
@@ -72,21 +70,17 @@ export function isContentImageSchema(obj: unknown): obj is ContentImageSchema {
     return 'image' in (obj as ContentImageSchema);
 }
 
-/*
- * Export function isContentTextSchema(obj: unknown): obj is ContentTextSchema {
- *     return 'text' in (obj as ContentTextSchema);
- * }
- */
+export function isContentTextSchema(obj: unknown): obj is ContentTextSchema {
+    return 'text' in (obj as ContentTextSchema);
+}
 
 export function isContentListSchema(obj: unknown): obj is ContentListSchema {
     return 'list' in (obj as ContentListSchema);
 }
 
-/*
- * Export function isContentListItemSchema(obj: unknown): obj is ContentListItemSchema {
- *     return 'content' in (obj as ContentListItemSchema) && isContentImageSchema((obj as ContentListItemSchema).content)
- * }
- */
+export function isContentListItemSchema(obj: unknown): obj is ContentListItemSchema {
+    return 'content' in (obj as ContentListItemSchema) && isContentImageSchema((obj as ContentListItemSchema).content);
+}
 
 export function isContentGroupSchema(obj: unknown): obj is ContentGroupSchema {
     return 'group' in (obj as ContentGroupSchema);

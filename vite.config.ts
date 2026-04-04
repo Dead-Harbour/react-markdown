@@ -1,47 +1,44 @@
 import { defineConfig, loadEnv, UserConfig } from 'vite';
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 import { viteConfigAliases } from '@syren-dev-tech/confetti/config';
 import react from '@vitejs/plugin-react';
-import tsconfigPaths from 'vite-tsconfig-paths';
 
-export default ({ mode }: UserConfig) => {
+const vite = ({ mode }: UserConfig) => {
     process.env = mode && {
         ...process.env,
         ...loadEnv(mode, process.cwd())
     } || process.env;
 
     const { DEV } = process.env;
+    const USE_DEV = !!DEV;
 
     return defineConfig({
         build: {
             copyPublicDir: false,
             emptyOutDir: false,
             lib: {
-                entry: ['markdown', 'router'].map((exp) => resolve(`./lib/${exp}.ts`)),
+                entry: resolve('./lib/markdown.ts'),
                 formats: ['es'],
                 name: 'confects'
             },
-            rollupOptions: {
-                external: [
-                    'react',
-                    'react-dom',
-                    'react-router',
-                    'react-router-dom'
-                ],
+            minify: !USE_DEV,
+            rolldownOptions: {
+                external: ['react', 'react-dom'],
                 output: {
                     globals: {
                         react: 'React',
-                        'react-router': 'ReactRouter',
-                        'react-router-dom': 'ReactRouterDOM'
+                        'react-dom': 'ReactDOM'
+                    },
+                    minify: {
+                        compress: {
+                            dropConsole: !USE_DEV,
+                            dropDebugger: !USE_DEV
+                        }
                     }
                 }
             }
         },
-        esbuild: {
-            drop: !DEV && ['console', 'debugger'] || undefined,
-            legalComments: 'none'
-        },
-        plugins: [react(), tsconfigPaths()],
+        plugins: [react()],
         resolve: {
             alias: {
                 ...viteConfigAliases()
@@ -52,3 +49,4 @@ export default ({ mode }: UserConfig) => {
         }
     });
 };
+export default vite;

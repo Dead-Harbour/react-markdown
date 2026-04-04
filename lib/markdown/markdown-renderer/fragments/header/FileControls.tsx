@@ -2,19 +2,21 @@ import { downloadContent, openInNewTab } from '@syren-dev-tech/confects/helpers'
 import { Glyph } from '@syren-dev-tech/confects/buttons';
 import { HTML_DivProps } from '@syren-dev-tech/confects/types';
 import { MarkdownFeatureFlags } from '../MarkdownHeader';
+import { useMarkdownContent } from '../../MarkdownContentProvider';
 
-type FileControlsProps = {
-    content?: string
+interface FileControlsProps extends HTML_DivProps {
     features: MarkdownFeatureFlags
-} & HTML_DivProps
+}
 
 export function FileControls(
     {
-        content,
         features,
         ...props
-    }: FileControlsProps
+    }: Readonly<FileControlsProps>
 ) {
+
+    const { content } = useMarkdownContent();
+
     if (!content || !(features.print || features.download))
         return null;
 

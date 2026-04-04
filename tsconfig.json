@@ -1,10 +1,8 @@
 {
     "compilerOptions": {
-        "baseUrl": "./",
-        "esModuleInterop": false,
         "module": "ESNext",
         "outDir": "./dist",
-        "rootDir": ".",
+        "rootDir": "./lib",
         "skipLibCheck": true,
         "target": "ESNext",
         "useDefineForClassFields": true,
@@ -12,6 +10,9 @@
             "DOM",
             "DOM.Iterable",
             "ESNext"
+        ],
+        "types": [
+            "node"
         ],
         // Bundler stuff
         "allowJs": true,
@@ -34,8 +35,7 @@
         "strict": true,
     },
     "include": [
-        "lib",
-        "src"
+        "lib"
     ],
     "exclude": [
         "./**/*.mjs",

@@ -1,46 +1,46 @@
 import { ContentDivider, ContentGroup, ContentList, ContentListItem, ContentTileGroup, ContentTileGroupProps, ContentTileProps } from '@syren-dev-tech/confects/containers';
-import { BlockContentType, isContentGroupSchema, isContentListSchema, isContentTileGroupSchema } from '../content/types';
-import { uniqueId } from '@syren-dev-tech/confects/helpers';
+import { BlockContentType, isContentGroupSchema, isContentListSchema, isContentTileGroupSchema } from '../types';
 import { RenderContent } from './RenderContent';
+import type { HTMLElementProps } from '@syren-dev-tech/confects/types';
+import { uniqueKey } from '@syren-dev-tech/concauses/strings';
 
-interface BlockContentProps {
-    content: BlockContentType
+interface BlockContentProps extends HTMLElementProps {
+    blockContent: BlockContentType
 }
 
-export default function BlockContent(
+export function BlockContent(
     {
-        content
-    }: BlockContentProps) {
-    console.log('to define:', content);
+        blockContent
+    }: Readonly<BlockContentProps>) {
 
-    if (content === null) {
+    if (blockContent === null) {
         return <ContentDivider
-            key={uniqueId('divider:')}
+            key={uniqueKey()}
         />;
     }
 
-    if (isContentTileGroupSchema(content)) {
-        console.log('tile group', content.tiles.content);
+    if (isContentTileGroupSchema(blockContent)) {
+        console.log('tile group', blockContent.tiles.content);
 
         return <ContentTileGroup
-            key={uniqueId('tile-group:')}
-            tiles={content.tiles.content as ContentTileProps[]}
-            {...content.tiles.options as ContentTileGroupProps | undefined}
+            key={uniqueKey()}
+            tiles={blockContent.tiles.content as ContentTileProps[]}
+            {...blockContent.tiles.options as ContentTileGroupProps | undefined}
         />;
     }
 
-    if (isContentGroupSchema(content)) {
+    if (isContentGroupSchema(blockContent)) {
         console.log('is group');
 
         return <ContentGroup
-            key={uniqueId('content-group:')}
+            key={uniqueKey()}
         >
             {
-                content.group.map((groupContent, gC) => {
+                blockContent.group.map((groupContent, gC) => {
                     console.log('group', gC, groupContent);
 
                     return <RenderContent
-                        key={uniqueId('group:')}
+                        key={uniqueKey()}
                         schema={groupContent}
                     />;
                 })
@@ -48,25 +48,25 @@ export default function BlockContent(
         </ContentGroup>;
     }
 
-    if (isContentListSchema(content)) {
+    if (isContentListSchema(blockContent)) {
         console.log('list');
 
         return <ContentList
-            key={uniqueId('content-list:')}
+            key={uniqueKey()}
         >
             {
-                content.list.map((listContent, lC) => {
+                blockContent.list.map((listContent, lC) => {
                     console.log('list', lC, listContent);
 
                     return <ContentListItem
-                        key={uniqueId('list-item:')}
+                        key={uniqueKey()}
                     >
                         {
                             listContent.content.map((listContentItem, lCI) => {
                                 console.log('list item', lCI, listContent);
 
                                 return <RenderContent
-                                    key={uniqueId('lci:')}
+                                    key={uniqueKey()}
                                     schema={listContentItem}
                                 />;
                             })
@@ -78,10 +78,8 @@ export default function BlockContent(
         </ContentList>;
     }
 
-    console.log('unknown content', content);
-
     return <RenderContent
-        key={uniqueId('unknown:')}
-        schema={content}
+        key={uniqueKey()}
+        schema={blockContent}
     />;
 }
