@@ -19,7 +19,7 @@ const vite = ({ mode }: UserConfig) => {
             lib: {
                 entry: resolve('./lib/markdown.ts'),
                 formats: ['es'],
-                name: 'confects'
+                name: 'confects-md'
             },
             minify: !USE_DEV,
             rolldownOptions: {
