@@ -46,7 +46,7 @@
     },
     "scripts": {
         "build:types": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
-        "build": "yarn clean && yarn build:types && vite build",
+        "build": "yarn clean; yarn build:types && vite build",
         "bump:pre": "npm version --commit-hooks false --git-tag-version false prerelease",
         "bump": "npm version --commit-hooks false --git-tag-version false patch",
         "clean": "rm -r ./dist",
