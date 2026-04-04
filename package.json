@@ -6,7 +6,7 @@
     "name": "@syren-dev-tech/confects-md",
     "packageManager": "yarn@4.13.0",
     "type": "module",
-    "version": "0.2.0-0",
+    "version": "0.2.0-1",
     "files": [
         "dist"
     ],
@@ -14,7 +14,7 @@
         "./style.css": "./dist/confects-md.css",
         ".": {
             "types": "./dist/lib/markdown.d.ts",
-            "import": "./dist/markdown.js",
+            "import": "./dist/confects-md.js",
             "require": null
         }
     },

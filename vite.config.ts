@@ -23,12 +23,12 @@ const vite = ({ mode }: UserConfig) => {
             },
             minify: !USE_DEV,
             rolldownOptions: {
-                external: ['react', 'react-dom'],
+                external: (id) => id.startsWith('@syren-dev-tech/') || [
+                    'react',
+                    'react-dom',
+                    'react-router-dom'
+                ].includes(id),
                 output: {
-                    globals: {
-                        react: 'React',
-                        'react-dom': 'ReactDOM'
-                    },
                     minify: {
                         compress: {
                             dropConsole: !USE_DEV,
