@@ -1,6 +1,6 @@
-import { Content } from '@syren-dev-tech/confects/containers';
+import { Content } from '@dead-harbour/react-elements/containers';
 import { ContentSchema, isContentImageSchema, isContentMarkdownSchema } from '../types';
-import type { HTMLElementProps } from '@syren-dev-tech/confects/types';
+import type { HTMLElementProps } from '@dead-harbour/react-elements/types';
 import { MarkdownRenderer } from '../../markdown-renderer/MarkdownRenderer';
 
 interface RenderContentProps extends HTMLElementProps {

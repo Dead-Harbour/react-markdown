@@ -1,5 +1,5 @@
-import type { HTMLElementProps } from '@syren-dev-tech/confects/types';
-import { createContext, useContext, useMemo, useState, type Dispatch, type SetStateAction } from 'react';
+import type { HTMLElementProps } from '@dead-harbour/react-elements/types';
+import { createContext, use, useMemo, useState, type Dispatch, type SetStateAction } from 'react';
 
 interface IMarkdownContentContext {
     content: string
@@ -28,11 +28,11 @@ export function MarkdownContentProvider({ children }: Readonly<HTMLElementProps>
         };
     }, [content, showRaw]);
 
-    return <MarkdownContentContext.Provider value={context}>
+    return <MarkdownContentContext value={context}>
         {children}
-    </MarkdownContentContext.Provider>;
+    </MarkdownContentContext>;
 }
 
 export function useMarkdownContent() {
-    return useContext(MarkdownContentContext);
+    return use(MarkdownContentContext);
 }

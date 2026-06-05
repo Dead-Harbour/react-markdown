@@ -1,9 +1,9 @@
-import { Button } from '@syren-dev-tech/confects/buttons';
+import { Button } from '@dead-harbour/react-elements/buttons';
 import { ContentLayoutSchema } from './types';
-import { getClassName } from '@syren-dev-tech/concauses/props';
+import { getClassName } from '@dead-harbour/shipshape/props';
 import { SchemaRenderer } from './fragments/SchemaRenderer';
 import { useEffect, useRef, useState } from 'react';
-import type { HTML_DivProps } from '@syren-dev-tech/confects/types';
+import type { HTML_DivProps } from '@dead-harbour/react-elements/types';
 
 export interface ContentRendererProps extends HTML_DivProps {
     defaultContent?: ContentLayoutSchema
@@ -25,10 +25,14 @@ export function ContentRenderer(
     useEffect(() => {
         console.log('FETCH:', href);
 
-        fetch(href)
+        const controller = new AbortController();
+
+        fetch(href, { signal: controller.signal })
             .then((resp) => resp.json() as Promise<ContentLayoutSchema>)
             .then((data) => setContent(data))
             .catch(console.error);
+
+        return () => controller.abort();
     }, [href]);
 
     if (!content) {

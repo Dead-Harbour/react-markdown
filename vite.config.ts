@@ -1,6 +1,6 @@
 import { defineConfig, loadEnv, UserConfig } from 'vite';
 import { resolve } from 'node:path';
-import { viteConfigAliases } from '@syren-dev-tech/confetti/config';
+import { viteConfigAliases } from '@dead-harbour/scss-rigging/config';
 import react from '@vitejs/plugin-react';
 
 const vite = ({ mode }: UserConfig) => {
@@ -23,7 +23,7 @@ const vite = ({ mode }: UserConfig) => {
             },
             minify: !USE_DEV,
             rolldownOptions: {
-                external: (id) => id.startsWith('@syren-dev-tech/') || [
+                external: (id) => id.startsWith('@dead-harbour/') || [
                     'react',
                     'react-dom',
                     'react-router-dom'

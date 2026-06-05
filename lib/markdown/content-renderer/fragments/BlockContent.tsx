@@ -1,8 +1,8 @@
-import { ContentDivider, ContentGroup, ContentList, ContentListItem, ContentTileGroup, ContentTileGroupProps, ContentTileProps } from '@syren-dev-tech/confects/containers';
+import { ContentDivider, ContentGroup, ContentList, ContentListItem, ContentTileGroup, ContentTileGroupProps, ContentTileProps } from '@dead-harbour/react-elements/containers';
 import { BlockContentType, isContentGroupSchema, isContentListSchema, isContentTileGroupSchema } from '../types';
 import { RenderContent } from './RenderContent';
-import type { HTMLElementProps } from '@syren-dev-tech/confects/types';
-import { uniqueKey } from '@syren-dev-tech/concauses/strings';
+import type { HTMLElementProps } from '@dead-harbour/react-elements/types';
+import { uniqueKey } from '@dead-harbour/shipshape/strings';
 
 interface BlockContentProps extends HTMLElementProps {
     blockContent: BlockContentType

@@ -1,4 +1,4 @@
-import { HTML_DivProps } from '@syren-dev-tech/confects/types';
+import { HTML_DivProps } from '@dead-harbour/react-elements/types';
 import type { MarkdownFeatureFlags } from './MarkdownHeader';
 
 export interface MarkdownFooterProps extends HTML_DivProps {

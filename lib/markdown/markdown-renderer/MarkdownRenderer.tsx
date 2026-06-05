@@ -1,11 +1,11 @@
 import './styles/markdown-renderer.scss';
-import { HTML_DivProps } from '@syren-dev-tech/confects/types';
-import { Loading } from '@syren-dev-tech/confects/decorations';
+import { HTML_DivProps } from '@dead-harbour/react-elements/types';
+import { Loading } from '@dead-harbour/react-elements/decorations';
 import { MarkdownBody } from './fragments/MarkdownBody';
 import { MarkdownFeatureFlags, MarkdownHeader } from './fragments/MarkdownHeader';
 import { MarkdownFooter } from './fragments/MarkdownFooter';
 import { useEffect } from 'react';
-import { getClassName } from '@syren-dev-tech/concauses/props';
+import { getClassName } from '@dead-harbour/shipshape/props';
 import { useMarkdownContent } from './MarkdownContentProvider';
 
 export interface MarkdownRendererProps extends HTML_DivProps {
@@ -38,7 +38,7 @@ export function MarkdownRenderer(
                 console.error(err);
             }
         })();
-    }, [href]);
+    }, [href, setContent]);
 
     if (!content) {
         return <Loading>

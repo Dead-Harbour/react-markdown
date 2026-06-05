@@ -1,6 +1,6 @@
-import { isInterfaceTypeIterable } from '@syren-dev-tech/confects/types';
+import { isInterfaceTypeIterable } from '@dead-harbour/react-elements/types';
 import { process } from './helpers';
-import { uniqueKey } from '@syren-dev-tech/concauses/strings';
+import { uniqueKey } from '@dead-harbour/shipshape/strings';
 import type { ClassAttributes, HTMLAttributes, JSX, ReactNode } from 'react';
 import type { ExtraProps } from 'react-markdown';
 

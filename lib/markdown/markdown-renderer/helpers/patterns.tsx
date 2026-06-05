@@ -1,4 +1,4 @@
-import { HTMLElementProps } from '@syren-dev-tech/confects/types';
+import { HTMLElementProps } from '@dead-harbour/react-elements/types';
 import { ReactNode } from 'react';
 import { TableOfContents } from '../../fragments/TableOfContents';
 

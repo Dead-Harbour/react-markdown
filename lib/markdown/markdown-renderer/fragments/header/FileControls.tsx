@@ -1,6 +1,6 @@
-import { downloadContent, openInNewTab } from '@syren-dev-tech/confects/helpers';
-import { Glyph } from '@syren-dev-tech/confects/buttons';
-import { HTML_DivProps } from '@syren-dev-tech/confects/types';
+import { downloadContent, openInNewTab } from '@dead-harbour/react-elements/helpers';
+import { Glyph } from '@dead-harbour/react-elements/buttons';
+import { HTML_DivProps } from '@dead-harbour/react-elements/types';
 import { MarkdownFeatureFlags } from '../MarkdownHeader';
 import { useMarkdownContent } from '../../MarkdownContentProvider';
 

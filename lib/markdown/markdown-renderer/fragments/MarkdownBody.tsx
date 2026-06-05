@@ -1,7 +1,7 @@
-import { getClassName } from '@syren-dev-tech/concauses/props';
-import { HTML_DivProps } from '@syren-dev-tech/confects/types';
+import { getClassName } from '@dead-harbour/shipshape/props';
+import { HTML_DivProps } from '@dead-harbour/react-elements/types';
 import { renderers } from '../helpers/renderers';
-import { uniqueKey } from '@syren-dev-tech/concauses/strings';
+import { uniqueKey } from '@dead-harbour/shipshape/strings';
 import { useMarkdownContent } from '../MarkdownContentProvider';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';

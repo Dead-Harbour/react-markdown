@@ -1,4 +1,4 @@
-import type { HTMLElementProps } from '@syren-dev-tech/confects/types';
+import type { HTMLElementProps } from '@dead-harbour/react-elements/types';
 import { HeadingNode } from './HeadingNode';
 
 interface TOCItemProps extends HTMLElementProps {

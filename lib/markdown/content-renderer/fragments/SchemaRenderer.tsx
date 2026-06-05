@@ -1,7 +1,7 @@
-import { ContentBlock } from '@syren-dev-tech/confects/containers';
+import { ContentBlock } from '@dead-harbour/react-elements/containers';
 import { ContentLayoutSchema } from '../types';
-import type { HTMLElementProps } from '@syren-dev-tech/confects/types';
-import { uniqueKey } from '@syren-dev-tech/concauses/strings';
+import type { HTMLElementProps } from '@dead-harbour/react-elements/types';
+import { uniqueKey } from '@dead-harbour/shipshape/strings';
 import { BlockContent } from './BlockContent';
 
 interface SchemaRendererProps extends HTMLElementProps {

@@ -1,8 +1,8 @@
-import { Button } from '@syren-dev-tech/confects/buttons';
+import { Button } from '@dead-harbour/react-elements/buttons';
 import { FileControls } from './header/FileControls';
-import { HTML_DivProps } from '@syren-dev-tech/confects/types';
+import { HTML_DivProps } from '@dead-harbour/react-elements/types';
 import { useMarkdownContent } from '../MarkdownContentProvider';
-import { getClassName } from '@syren-dev-tech/concauses/props';
+import { getClassName } from '@dead-harbour/shipshape/props';
 
 export interface MarkdownFeatureFlags {
     bodyOnly?: boolean

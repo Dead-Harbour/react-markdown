@@ -67,7 +67,7 @@ export function TableOfContents() {
                 }
             }
         });
-    }, [ref]);
+    }, [ref, root]);
 
     return <span
         ref={ref}
